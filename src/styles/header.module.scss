@@ -10,25 +10,29 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+
+    .header__content {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+
+      & input {
+        width: 25rem;
+        background-color: white !important;
+        border-radius: 0;
+      }
+    }
+
+    .header__logo {
+      cursor: pointer;
+    }
   }
 
-  .header__content {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    & input {
-      width: 25rem;
-      background-color: white !important;
-      border-radius: 0;
-    }
-    .dropDown {
-      width: 10rem !important;
-    }
-  }
 
-  .header__logo {
-    cursor: pointer;
-  }
+
   &__logo {
     margin-right: 1rem;
 
@@ -47,5 +51,11 @@
       font-size: 1.5rem;
       color: #333;
     }
+  }
+}
+
+@media (max-width: 518px) {
+  .header_top {
+    gap: 1rem;
   }
 }

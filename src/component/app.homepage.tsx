@@ -9,6 +9,7 @@ import { SongPlayType, useSongPlayContext } from "@/contexts/SongPlayContext";
 import Ads, { AdsType } from "./ads/Ads";
 import { getAdsByTypeApi } from "@/services/ads.services";
 import WaveSurferManager from "@/contexts/WaveSurferManager";
+import FilterComponent from "./filterComponent/FilterComponent";
 
 const AppHomePage = () => {
     const [ads, setAds] = useState<any>(null);
@@ -97,13 +98,16 @@ const AppHomePage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.header_content}>
-                <h1>31957 bản nhạc music demo miễn phí bản quyền</h1>
+                <h1>Vô vàn bản nhạc miễn phí bản quyền</h1>
                 <h2>Tải xuống music demo bản âm thanh và nhạc cụ miễn phí bản quyền cho dự án tiếp theo của bạn.</h2>
                 <p>Royalty-free music demo music MP3 download. Use the audio track and instrumentals in your next project.</p>
             </div>
+            <div className={styles.filterZone}>
+                <FilterComponent />
+            </div>
             <div className={styles.musics_content}>
                 <div className={styles.musics_content_label}>
-                    Bản nhạc miễn phí bản quyền
+                    <p>Bản nhạc miễn phí bản quyền</p>
                 </div>
                 {
                     ads && (

@@ -1,42 +1,79 @@
-import React from 'react'
-import { Dropdown } from 'semantic-ui-react'
+import { useSongPlayContext } from '@/contexts/SongPlayContext';
+import { getAllCategoriesApi } from '@/services/categories.services';
+import React, { useEffect } from 'react'
+import styles from './FilterComponentProps.module.scss'
+import WaveSurferManager from '@/contexts/WaveSurferManager';
+import { searchMusicApi } from '@/services/musics.services';
 
-const countryOptions = [
-    { key: 'af', value: 'af', flag: 'af', text: 'Afghanistan' },
-    { key: 'ax', value: 'ax', flag: 'ax', text: 'Aland Islands' },
-    { key: 'al', value: 'al', flag: 'al', text: 'Albania' },
-    { key: 'dz', value: 'dz', flag: 'dz', text: 'Algeria' },
-    { key: 'as', value: 'as', flag: 'as', text: 'American Samoa' },
-    { key: 'ad', value: 'ad', flag: 'ad', text: 'Andorra' },
-    { key: 'ao', value: 'ao', flag: 'ao', text: 'Angola' },
-    { key: 'ai', value: 'ai', flag: 'ai', text: 'Anguilla' },
-    { key: 'ag', value: 'ag', flag: 'ag', text: 'Antigua' },
-    { key: 'ar', value: 'ar', flag: 'ar', text: 'Argentina' },
-    { key: 'am', value: 'am', flag: 'am', text: 'Armenia' },
-    { key: 'aw', value: 'aw', flag: 'aw', text: 'Aruba' },
-    { key: 'au', value: 'au', flag: 'au', text: 'Australia' },
-    { key: 'at', value: 'at', flag: 'at', text: 'Austria' },
-    { key: 'az', value: 'az', flag: 'az', text: 'Azerbaijan' },
-    { key: 'bs', value: 'bs', flag: 'bs', text: 'Bahamas' },
-    { key: 'bh', value: 'bh', flag: 'bh', text: 'Bahrain' },
-    { key: 'bd', value: 'bd', flag: 'bd', text: 'Bangladesh' },
-    { key: 'bb', value: 'bb', flag: 'bb', text: 'Barbados' },
-    { key: 'by', value: 'by', flag: 'by', text: 'Belarus' },
-    { key: 'be', value: 'be', flag: 'be', text: 'Belgium' },
-    { key: 'bz', value: 'bz', flag: 'bz', text: 'Belize' },
-    { key: 'bj', value: 'bj', flag: 'bj', text: 'Benin' },
-]
 
-const FilterComponent = () => (
-    <Dropdown
-        clearable
-        fluid
-        multiple
-        search
-        selection
-        options={countryOptions}
-        placeholder='Select Country'
-    />
-)
+
+const FilterComponent = () => {
+    const { searchObject, setSearchObject, categoriesData, setCategoriesData, setIsLoading, setSongPlay, setMusicData, pagingnation, setPagingnation } = useSongPlayContext();
+
+
+
+    const searchMusicData = async (type: string) => {
+        setIsLoading(true)
+        await WaveSurferManager.destroyAll()
+        setSongPlay(null)
+        setMusicData([]);
+
+        let { data, meta } = await searchMusicApi("", type, 0, pagingnation.pageSize);
+        if (data && data.length > 0) {
+            setMusicData(data);
+        } else {
+            setMusicData([]);
+        }
+
+        if (meta && meta.pagination) {
+            setPagingnation(meta.pagination);
+        }
+
+        setIsLoading(false);
+    }
+
+
+    const handleOpenByType = (type: string) => {
+        searchMusicData(type);
+        setSearchObject({
+            ...searchObject,
+            type: type
+        })
+    }
+
+    useEffect(() => {
+        const getCategoriesData = async () => {
+            let { data } = await getAllCategoriesApi();
+            if (data && data.length > 0) {
+                let allItem = [{ key: 'all', text: 'All', value: 'all' }];
+                let newDropDown = data.map((item: any) => {
+                    return {
+                        key: item.attributes.uuid,
+                        text: item.attributes.name,
+                        value: item.attributes.uuid
+                    }
+                })
+                let result = allItem.concat(newDropDown);
+                setCategoriesData(result);
+            }
+        }
+        if (!categoriesData || categoriesData.length == 0) {
+            getCategoriesData();
+        }
+    }, [categoriesData])
+
+    return (
+        <div className={styles.filterContainer}>
+            {
+                categoriesData.map((item) =>
+                    <div className={styles.categoryItem} onClick={() => handleOpenByType(item.key)}>
+                        {item.text}
+                    </div>
+                )
+            }
+        </div>
+    )
+
+}
 
 export default FilterComponent

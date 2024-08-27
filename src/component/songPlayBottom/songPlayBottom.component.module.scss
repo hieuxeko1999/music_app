@@ -25,7 +25,8 @@
     justify-content: center;
     cursor: pointer;
     align-items: center;
-    > i {
+
+    >i {
       font-size: 1rem;
       color: white;
     }
@@ -35,13 +36,18 @@
     width: 100%;
     background-color: #191b26;
     height: auto;
-    overflow: hidden; /* Ensure content doesn't overflow during animation */
-    max-height: 0; /* Start with the container hidden */
+    overflow: hidden;
+    /* Ensure content doesn't overflow during animation */
+    max-height: 0;
+    /* Start with the container hidden */
     opacity: 0;
-    transition: max-height 0.8s ease, opacity 0.8s ease; /* Smooth animation */
+    transition: max-height 0.8s ease, opacity 0.8s ease;
+    /* Smooth animation */
     box-sizing: border-box;
+
     &.show {
-      max-height: 200px; /* Adjust based on your content's height */
+      max-height: 200px;
+      /* Adjust based on your content's height */
       opacity: 1;
     }
 
@@ -52,6 +58,7 @@
       grid-template-columns: 1.5fr 2fr 1fr;
       grid-column-gap: 1rem;
       padding: 1rem;
+
       .firstCol {
         display: flex;
         flex-direction: row;
@@ -61,7 +68,8 @@
 
         .playBtn {
           cursor: pointer;
-          > i {
+
+          >i {
             color: white !important;
           }
         }
@@ -72,14 +80,17 @@
           align-items: center;
           gap: 2rem;
           color: white;
+
           .songName {
             cursor: pointer;
             font-weight: 400;
           }
+
           .songName:hover {
             cursor: pointer;
             color: #00ab6b;
           }
+
           .songImg {
             border-radius: 10px;
           }
@@ -100,7 +111,8 @@
           align-items: center;
           gap: 1rem;
           color: white;
-          > i {
+
+          >i {
             cursor: pointer;
           }
         }
@@ -112,11 +124,13 @@
         flex-direction: row;
         gap: 1rem;
         color: white;
+
         .unLoadedLine {
           height: 2px;
           width: 100%;
           background-color: white;
         }
+
         .wavesurfer-container {
           margin: 1rem 0;
         }
@@ -129,25 +143,27 @@
   .container {
     grid-template-columns: auto auto;
     grid-auto-flow: column;
+
     .midCol {
       display: none;
     }
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 840px) {
   .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 2rem;
-    align-items: center;
-    .lastCol {
-      text-align: end;
-    }
-    .midCol {
-      display: none;
+    .mainContent {
+      display: flex !important;
+      padding: 1rem !important;
+
+      .firstCol {
+        width: 100% !important;
+      }
+
+      .lastCol,
+      .midCol {
+        display: none !important;
+      }
     }
   }
 }

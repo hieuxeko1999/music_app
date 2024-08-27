@@ -83,7 +83,7 @@ const RelatedSong: React.FC<RelatedSongProps> = ({ currentSong, type }) => {
         <div className={styles.relatedSongContainer}>
             <div className={styles.songs}>
                 {
-                    musicDataState && musicDataState.map((item: any) => {
+                    musicDataState && musicDataState.filter((song: any) => currentSong != song.id).map((item: any) => {
                         let dataObject = item.attributes;
                         return <SongCard
                             key={item.id}
