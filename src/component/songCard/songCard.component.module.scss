@@ -1,0 +1,112 @@
+.container {
+  width: 100%;
+  height: auto;
+  padding: 1rem 2rem;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  background-color: #f7f7f7;
+  border-radius: 7px;
+  grid-column-gap: 1rem;
+  .firstCol {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+
+    .playBtn {
+      cursor: pointer;
+    }
+
+    .songInfo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 2rem;
+      .songName {
+        cursor: pointer;
+        font-weight: 400;
+      }
+      .songName:hover {
+        cursor: pointer;
+        color: #00ab6b;
+      }
+      .songImg{
+        border-radius: 10px;
+        width: 50px !important;
+      }
+    }
+  }
+
+  .lastCol {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    box-sizing: content-box;
+
+    .actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+
+      .actions_like {
+        cursor: pointer;
+      }
+    }
+
+    .download_btn {
+      border: 0.5px solid gray;
+      padding: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .download_btn:hover {
+      border: 0.5px solid #00ab6b;
+      color: #00ab6b;
+    }
+  }
+
+  .midCol {
+    align-items: center;
+    display: flex;
+    .unLoadedLine{
+      height: 0.5px;
+      width: 100%;
+      background-color: gray;
+    }
+    .wavesurfer-container {
+      margin: 1rem 0;
+    }
+  }
+}
+
+@media only screen and (max-width: 975px) {
+  .container {
+    grid-template-columns: auto auto;
+    grid-auto-flow: column;
+    .midCol {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    .lastCol {
+      text-align: end;
+    }
+    .midCol {
+      display: none;
+    }
+  }
+}

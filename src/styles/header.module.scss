@@ -1,0 +1,51 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding-block: 1rem;
+  border-bottom: 1px solid #e7e7e7;
+  color: black;
+
+  .header_top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header__content {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    & input {
+      width: 25rem;
+      background-color: white !important;
+      border-radius: 0;
+    }
+    .dropDown {
+      width: 10rem !important;
+    }
+  }
+
+  .header__logo {
+    cursor: pointer;
+  }
+  &__logo {
+    margin-right: 1rem;
+
+    img {
+      height: 40px;
+      width: auto;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #333;
+    }
+  }
+}
