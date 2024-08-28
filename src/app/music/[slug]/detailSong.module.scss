@@ -4,15 +4,34 @@
   flex-wrap: wrap;
   width: 100%;
   height: 100%;
+
   .rightZone {
     width: 25%;
     margin-top: 3rem;
   }
+
   .leftZone {
     flex: 1;
+
     .listMusic {
       width: 95%;
       margin: 0 auto;
+    }
+
+    .ads {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 518px) {
+  .rightZone {
+    display: none !important;
+  }
+
+  .leftZone {
+    .ads {
+      display: inline !important;
     }
   }
 }

@@ -10,6 +10,9 @@ import Ads, { AdsType } from "./ads/Ads";
 import { getAdsByTypeApi } from "@/services/ads.services";
 import WaveSurferManager from "@/contexts/WaveSurferManager";
 import FilterComponent from "./filterComponent/FilterComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { clearInputSearch, selectInputSearch } from "@/store/features/counter/counterSlice";
+import { AppDispatch } from "@/store";
 
 const AppHomePage = () => {
     const [ads, setAds] = useState<any>(null);
@@ -23,7 +26,8 @@ const AppHomePage = () => {
     const [musicDataState, setMusicDataState] = useState<any>(null);
     const channelArnRef = useRef(activeSong);
     channelArnRef.current = activeSong;
-
+    const searchTrigger = useSelector(selectInputSearch);
+    const dispatch = useDispatch<AppDispatch>();
 
     const searchMusicData = async (page: number) => {
         setIsLoading(true)
@@ -95,20 +99,38 @@ const AppHomePage = () => {
     }, [])
 
 
+    useEffect(() => {
+        const searchMusicData = async (input: string) => {
+            setIsLoading(true)
+            await WaveSurferManager.destroyAll()
+            setSongPlay(null)
+            setMusicData([]);
+
+            let { data, meta } = await searchMusicApi(input, "all", 0, pagingnation.pageSize);
+            if (data && data.length > 0) {
+                setMusicData(data);
+            } else {
+                setMusicData([]);
+            }
+
+            if (meta && meta.pagination) {
+                setPagingnation(meta.pagination);
+            }
+            dispatch(clearInputSearch());
+            setIsLoading(false);
+        }
+        if (searchTrigger !== "") {
+            searchMusicData(searchTrigger);
+        }
+    }, [searchTrigger])
+
+
     return (
         <div className={styles.container}>
-            <div className={styles.header_content}>
-                <h1>Vô vàn bản nhạc miễn phí bản quyền</h1>
-                <h2>Tải xuống music demo bản âm thanh và nhạc cụ miễn phí bản quyền cho dự án tiếp theo của bạn.</h2>
-                <p>Royalty-free music demo music MP3 download. Use the audio track and instrumentals in your next project.</p>
-            </div>
             <div className={styles.filterZone}>
                 <FilterComponent />
             </div>
             <div className={styles.musics_content}>
-                <div className={styles.musics_content_label}>
-                    <p>Bản nhạc miễn phí bản quyền</p>
-                </div>
                 {
                     ads && (
                         <Ads type={AdsType.HORIZONTAL} ads={ads} />

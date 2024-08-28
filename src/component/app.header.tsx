@@ -5,19 +5,26 @@ import styles from '../styles/header.module.scss';
 import { Button, Input } from 'semantic-ui-react';
 import { useSongPlayContext } from '@/contexts/SongPlayContext';
 import { getAllCategoriesApi } from '@/services/categories.services';
-import { searchMusicApi } from '@/services/musics.services';
-import WaveSurferManager from '@/contexts/WaveSurferManager';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/store';
+import { addInputSearch } from '@/store/features/counter/counterSlice';
+import { usePathname } from 'next/navigation';
 
 
 interface HeaderProps {
 }
 
 const AppHeader: React.FC<HeaderProps> = () => {
-
+    const dispatch = useDispatch<AppDispatch>();
+    const pathname = usePathname()
     const handleLogoClick = () => {
         window.location.href = '/';
     };
-    const { setSongPlay, categoriesData, setCategoriesData, searchObject, setSearchObject, setIsLoading, setMusicData, setPagingnation, pagingnation } = useSongPlayContext();
+    const {
+        categoriesData,
+        setCategoriesData,
+        setSearchObject,
+    } = useSongPlayContext();
     const [inputData, setInputData] = useState<string>("");
 
 
@@ -25,29 +32,11 @@ const AppHeader: React.FC<HeaderProps> = () => {
         setInputData(e.currentTarget.value);
     }
 
-
-    const searchMusicData = async (input: string) => {
-        setIsLoading(true)
-        await WaveSurferManager.destroyAll()
-        setSongPlay(null)
-        setMusicData([]);
-
-        let { data, meta } = await searchMusicApi(input, "all", 0, pagingnation.pageSize);
-        if (data && data.length > 0) {
-            setMusicData(data);
-        } else {
-            setMusicData([]);
-        }
-
-        if (meta && meta.pagination) {
-            setPagingnation(meta.pagination);
-        }
-
-        setIsLoading(false);
-    }
-
     const hanldeSearch = () => {
-        searchMusicData(inputData);
+        dispatch(addInputSearch(inputData));
+        if (pathname != "/") {
+            window.location.href = '/';
+        }
         setSearchObject({
             input: inputData,
             type: "all"
@@ -81,7 +70,7 @@ const AppHeader: React.FC<HeaderProps> = () => {
                 <div className={styles["header_top"]}>
                     <div className={styles["header__logo"]} onClick={handleLogoClick}>
                         {/* <img src={logoUrl} alt={`${title} logo`} /> */}
-                        LOGO
+                        MUSIC APP
                     </div>
                     <div className={styles["header__content"]}>
                         <Input type='text' placeholder='Search...' icon='search' iconPosition='left' onChange={handleTypeing} />

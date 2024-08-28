@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getDataMusicByIdApi } from "@/services/musics.services";
 import SongCardDetail from "@/component/songCard/songCardDetail.component";
 import styles from './detailSong.module.scss'
-import { getAdsByTypeApi } from "@/services/ads.services";
+import { getAdsApi } from "@/services/ads.services";
 import Ads, { AdsType } from "@/component/ads/Ads";
 import { Dimmer, Loader } from "semantic-ui-react";
 import { useSongPlayContext } from "@/contexts/SongPlayContext";
@@ -45,7 +45,7 @@ export default function DetailSong() {
 
   useEffect(() => {
     const getAdsData = async () => {
-      let { data } = await getAdsByTypeApi(AdsType.VERTICAL);
+      let { data } = await getAdsApi();
       if (data && data.length > 0) {
         setAds(data);
       }
@@ -58,6 +58,9 @@ export default function DetailSong() {
   return (
     <div className={styles.container}>
       <div className={styles.leftZone}>
+        <div className={styles.ads}>
+          <Ads type={AdsType.HORIZONTAL} ads={ads?.filter((item: any) => item?.attributes?.type != AdsType.VERTICAL)} />
+        </div>
         {
           musicData && (
             <>
@@ -71,10 +74,12 @@ export default function DetailSong() {
             </>
           )
         }
-
+        <div className={styles.ads}>
+          <Ads type={AdsType.HORIZONTAL} ads={ads?.filter((item: any) => item?.attributes?.type != AdsType.VERTICAL)} />
+        </div>
       </div>
       <div className={styles.rightZone}>
-        <Ads type={AdsType.VERTICAL} ads={ads} />
+        <Ads type={AdsType.VERTICAL} ads={ads?.filter((item: any) => item?.attributes?.type != AdsType.HORIZONTAL)} />
       </div>
       {isLoading && (
         <Dimmer active inverted>

@@ -65,8 +65,8 @@ const FilterComponent = () => {
     return (
         <div className={styles.filterContainer}>
             {
-                categoriesData.map((item) =>
-                    <div className={styles.categoryItem} onClick={() => handleOpenByType(item.key)}>
+                categoriesData.map((item, index) =>
+                    <div key={index} className={styles.categoryItem} onClick={() => handleOpenByType(item.key)}>
                         {item.text}
                     </div>
                 )
