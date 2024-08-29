@@ -47,7 +47,7 @@ const SongPlayBottom = () => {
             if (songID !== "") {
                 if (songID !== songPlay.id) {
                     setOnOpen(false)
-                    let checkExited = WaveSurferManager.checkInstance(`${songID}_bottom`)
+                    let checkExited = WaveSurferManager.checkInstance(`${songID}_bottom`);
                     if (checkExited) {
                         const wavesurferOld = WaveSurferManager.getInstance(`#card${songID}_bottom`, `${songID}_bottom`);
                         wavesurferOld.destroy();
@@ -55,13 +55,8 @@ const SongPlayBottom = () => {
                 }
             }
 
-            console.log("check 3====:", `#card${songPlay?.id}`);
-
-
             const wavesurfer = WaveSurferManager.getInstance(`#card${songPlay.id}`, songPlay.id);
-
             const wavesurferBottom = WaveSurferManager.getInstance(`#card${songPlay.id}_bottom`, `${songPlay.id}_bottom`);
-
             wavesurferBottom.load(songPlay.songContent);
 
 

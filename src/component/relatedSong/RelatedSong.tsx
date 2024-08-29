@@ -55,6 +55,27 @@ const RelatedSong: React.FC<RelatedSongProps> = ({ currentSong, type }) => {
         })
     };
 
+    const handleEnd = (currentIndex: number) => {
+        if (musicDataState.length > currentIndex) {
+            let nextSong = musicDataState[currentIndex + 1];
+            let nextSongId = nextSong.id
+            handleOpenDetail(nextSong.songName, nextSongId);
+        }
+    };
+
+    const handleOpenDetail = (songName: string, songId: number) => { 
+        let slug = stringToSlug(songName);
+        window.location.href = `/music/${slug}-${songId}`;
+    }
+
+    const stringToSlug = (str: string) => {
+        return str
+            .toLowerCase()                 // Convert the string to lowercase
+            .trim()                        // Remove whitespace from both ends of the string
+            .replace(/[\s\W-]+/g, '-')     // Replace spaces and non-word characters with a dash
+            .replace(/^-+|-+$/g, '');      // Remove leading and trailing dashes
+    }
+
     useEffect(() => {
         if (musicData) {
             setMusicDataState(musicData);
@@ -83,7 +104,7 @@ const RelatedSong: React.FC<RelatedSongProps> = ({ currentSong, type }) => {
         <div className={styles.relatedSongContainer}>
             <div className={styles.songs}>
                 {
-                    musicDataState && musicDataState.filter((song: any) => currentSong != song.id).map((item: any) => {
+                    musicDataState && musicDataState.filter((song: any) => currentSong != song.id).map((item: any, index: number) => {
                         let dataObject = item.attributes;
                         return <SongCard
                             key={item.id}
@@ -92,7 +113,7 @@ const RelatedSong: React.FC<RelatedSongProps> = ({ currentSong, type }) => {
                             songName={dataObject?.song_name}
                             singer={dataObject?.singer_name} id={item.id}
                             isActive={activeSong === item.id.toString()}
-                            onPlay={handlePlay} />
+                            onPlay={handlePlay} onEnd={handleEnd} currentIndex={index} />
                     })
                 }
                 {

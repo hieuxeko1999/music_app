@@ -12,7 +12,9 @@ export interface SongCardProps {
     singer: string
     id: string
     isActive: boolean;
-    onPlay: Function
+    onPlay: Function,
+    onEnd: Function,
+    currentIndex: number,
 }
 
 const SongCard = (props: SongCardProps) => {
@@ -71,7 +73,7 @@ const SongCard = (props: SongCardProps) => {
                 songName: props.songName,
                 id: props.id.toString()
             }
-            props.onPlay(dataSongPlay)
+            props.onPlay(dataSongPlay, props.currentIndex)
         };
 
         const handlePause = () => {
@@ -93,6 +95,7 @@ const SongCard = (props: SongCardProps) => {
             console.log(`Song ${props.id} finished`);
             setIsPlay(false);
             wavesurfer.seekTo(0);
+            props.onEnd(props.currentIndex);
         });
 
         return () => {

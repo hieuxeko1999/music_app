@@ -53,6 +53,15 @@ const AppHomePage = () => {
         setSongPlay(songData);
     };
 
+    const handleEnd = (currentIndex: number) => {
+        if (musicDataState.length > currentIndex) {
+            let nextSong = musicDataState[currentIndex + 1];
+            let nextSongId = nextSong.id
+            const wavesurfer = WaveSurferManager.getInstance(`#card${nextSongId}`, nextSongId);
+            wavesurfer.play();
+        }
+    };
+
     const hanldeChangePage = async (event: React.SyntheticEvent<HTMLElement>,
         data: any) => {
         await searchMusicData(data.activePage)
@@ -138,7 +147,7 @@ const AppHomePage = () => {
                 }
                 <div className={styles.songs}>
                     {
-                        musicDataState && musicDataState.map((item: any) => {
+                        musicDataState && musicDataState.map((item: any, index: number) => {
                             let dataObject = item.attributes;
                             return <SongCard
                                 key={item.id}
@@ -147,7 +156,9 @@ const AppHomePage = () => {
                                 songName={dataObject?.song_name}
                                 singer={dataObject?.singer_name} id={item.id}
                                 isActive={activeSong === item.id.toString()}
-                                onPlay={handlePlay} />
+                                onPlay={handlePlay}
+                                currentIndex={index}
+                                onEnd={handleEnd} />
                         })
                     }
                     {

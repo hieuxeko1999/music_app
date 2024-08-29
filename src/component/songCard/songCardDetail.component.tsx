@@ -42,6 +42,15 @@ const SongCardDetail = (props: songCardDetailProps) => {
     }
 
     useEffect(() => {
+        if (
+            onOpenRef.current
+        ) {
+            handlePlaySong();
+        }
+
+    }, [onOpenRef.current]);
+
+    useEffect(() => {
         const wavesurfer = WaveSurferManager.getInstance(`#card${props.id}`, props.id);
 
         const handleReady = () => {
