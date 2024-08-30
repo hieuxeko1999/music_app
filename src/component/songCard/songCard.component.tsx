@@ -116,7 +116,7 @@ const SongCard = (props: SongCardProps) => {
                     }
                 </div>
                 <div className={styles.songInfo}>
-                    <Image className={styles.songImg} src={props.songImage} />
+                    <Image className={styles.songImg} src={props.songImage || `http://dummyimage.com/107x100.png/dddddd/000000`} />
                     <div className={styles.songName} onClick={handleOpenDetail}>{`${props.songName} [${props.singer}]`}</div>
                 </div>
             </div>

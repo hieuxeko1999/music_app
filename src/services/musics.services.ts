@@ -58,38 +58,47 @@ export const getDataMusicApi = async (page: number, pageSize: number) => {
 }
 
 export const getReleatedDataMusicApi = async (exceptSong: number, type: string, page: number, pageSize: number) => {
-    const query = qs.stringify(
-        {
-            fields: ['song_name', 'singer_name', 'active'],
-            populate: {
-                song_content: {
-                    fields: ['url'],
-                },
-                song_img: {
-                    fields: ['url'],
-                },
-                music_category: {
-                    fields: ['name', 'uuid'],
-                },
+    let queryObject = {
+        fields: ['song_name', 'singer_name', 'active'],
+        populate: {
+            song_content: {
+                fields: ['url'],
             },
-            filters: {
-                $and: [
-                    {
-                        active: true,
-                    },
-                    {
-                        id: {
-                            $ne: exceptSong,  // Exclude the song with the given ID
-                        },
-                    },
-                ],
+            song_img: {
+                fields: ['url'],
             },
-            sort: ['updatedAt:desc'],
-            pagination: {
-                page: page - 1,      // Page number (1-based)
-                pageSize,  // Number of items per page
+            music_category: {
+                fields: ['name', 'uuid'],
             },
         },
+        filters: {
+            $and: [
+                {
+                    active: true,
+                },
+                {
+                    id: {
+                        $ne: exceptSong,  // Exclude the song with the given ID
+                    },
+                },
+                {
+                    music_category: {
+                        uuid: {
+                            $eq: type, // Exact match for category name
+                        },
+                    }
+                }
+            ],
+        },
+        sort: ['updatedAt:asc'],
+        pagination: {
+            page: page - 1,      // Page number (1-based)
+            pageSize,  // Number of items per page
+        },
+    }
+
+    const query = qs.stringify(
+        queryObject,
         {
             encodeValuesOnly: true, // prettify URL
         }
@@ -138,7 +147,7 @@ export const searchMusicApi = async (input: string, type: string, page: number, 
                 $eq: true,
             },
         } as Record<string, any>,
-        sort: ['updatedAt:desc'],
+        sort: ['updatedAt:asc'],
         pagination: {
             page: page - 1,      // Page number (1-based)
             pageSize,  // Number of items per page

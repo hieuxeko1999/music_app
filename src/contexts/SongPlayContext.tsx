@@ -52,6 +52,8 @@ interface SongPlayContextContextType {
     isLoading: boolean
     setPagingnation: (data: Paging) => void;
     pagingnation: Paging
+    setIsPlayRelatedSong: (data: string | null) => void;
+    isPlayRelatedSong: string | null
 }
 
 export const SongPlayContextContext = createContext<
@@ -70,10 +72,11 @@ export const SongPlayContextProvider: React.FC<
     const [volumn, setVolumn] = useState<number>(0.5);
     const [musicData, setMusicData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isPlayRelatedSong, setIsPlayRelatedSong] = useState<string | null>(null);
     const [pagingnation, setPagingnation] = useState<Paging>({
         page: 1,
         pageCount: 0,
-        pageSize: 2,
+        pageSize: 7,
         total: 0,
     });
 
@@ -92,7 +95,9 @@ export const SongPlayContextProvider: React.FC<
             isLoading,
             setIsLoading,
             pagingnation,
-            setPagingnation
+            setPagingnation,
+            isPlayRelatedSong,
+            setIsPlayRelatedSong
         }}>
             {children}
         </SongPlayContextContext.Provider>

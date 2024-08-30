@@ -19,7 +19,7 @@ const SongCardDetail = (props: songCardDetailProps) => {
     const [timeDuration, setTimeDuration] = useState<string>("00:00s");
     const [currentTime, setCurrentTime] = useState<string>("00:00");
     const [isReady, setIsReady] = useState<boolean>(false);
-    const { setSongPlay } = useSongPlayContext();
+    const { setSongPlay, setIsPlayRelatedSong } = useSongPlayContext();
     const onOpenRef = useRef(isReady);
     onOpenRef.current = isReady;
 
@@ -40,15 +40,6 @@ const SongCardDetail = (props: songCardDetailProps) => {
 
         return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
     }
-
-    useEffect(() => {
-        if (
-            onOpenRef.current
-        ) {
-            handlePlaySong();
-        }
-
-    }, [onOpenRef.current]);
 
     useEffect(() => {
         const wavesurfer = WaveSurferManager.getInstance(`#card${props.id}`, props.id);
@@ -90,6 +81,7 @@ const SongCardDetail = (props: songCardDetailProps) => {
             console.log(`Song ${props.id} finished`);
             setIsPlay(false);
             wavesurfer.seekTo(0);
+            setIsPlayRelatedSong(`Song ${props.id} finished`);
         });
 
         wavesurfer.on('timeupdate', (e: any) => {
@@ -115,11 +107,11 @@ const SongCardDetail = (props: songCardDetailProps) => {
                     backgroundPosition: "center",
                     borderRadius: "10px"
                 }} className={styles.bgr}>
-                    <Image className={styles.songImg} src={props.songImage} />
+                    <Image className={styles.songImg} src={props.songImage || `http://dummyimage.com/1732x300.png/cc0000/ffffff`} />
                 </div>
                 <div className={styles.card_info}>
                     <div className={styles.songInfo}>
-                        <Image className={styles.songImg} src={props.songImage} size="tiny" />
+                        <Image className={styles.songImg} src={props.songImage || `http://dummyimage.com/107x100.png/dddddd/000000`} size="tiny" />
                         <div className={styles.songName}>{`${props.songName} [${props.singer}]`}</div>
                     </div>
                     <div className={styles.midCol}>

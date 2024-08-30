@@ -16,8 +16,7 @@ const RelatedSong: React.FC<RelatedSongProps> = ({ currentSong, type }) => {
     const { setSongPlay, musicData,
         setMusicData, isLoading,
         setIsLoading,
-        pagingnation, setPagingnation,
-        searchObject
+        pagingnation, setPagingnation, isPlayRelatedSong, setIsPlayRelatedSong
     } = useSongPlayContext();
     const [musicDataState, setMusicDataState] = useState<any>(null);
 
@@ -27,7 +26,7 @@ const RelatedSong: React.FC<RelatedSongProps> = ({ currentSong, type }) => {
         await WaveSurferManager.destroyAll()
         setSongPlay(null)
         setMusicData([]);
-        let { data, meta } = await searchMusicApi(searchObject.input, searchObject.type, page + 1, pagingnation.pageSize);
+        let { data, meta } = await searchMusicApi("", type, page + 1, pagingnation.pageSize);
         if (data && data.length > 0) {
             setMusicData(data);
         } else {
@@ -58,29 +57,29 @@ const RelatedSong: React.FC<RelatedSongProps> = ({ currentSong, type }) => {
     const handleEnd = (currentIndex: number) => {
         if (musicDataState.length > currentIndex) {
             let nextSong = musicDataState[currentIndex + 1];
-            let nextSongId = nextSong.id
-            handleOpenDetail(nextSong.songName, nextSongId);
+            if (nextSong) {
+                let nextSongId = nextSong.id
+                const wavesurfer = WaveSurferManager.getInstance(`#card${nextSongId}`, nextSongId);
+                wavesurfer.play();
+                setIsPlayRelatedSong(null);
+            }
         }
     };
-
-    const handleOpenDetail = (songName: string, songId: number) => { 
-        let slug = stringToSlug(songName);
-        window.location.href = `/music/${slug}-${songId}`;
-    }
-
-    const stringToSlug = (str: string) => {
-        return str
-            .toLowerCase()                 // Convert the string to lowercase
-            .trim()                        // Remove whitespace from both ends of the string
-            .replace(/[\s\W-]+/g, '-')     // Replace spaces and non-word characters with a dash
-            .replace(/^-+|-+$/g, '');      // Remove leading and trailing dashes
-    }
 
     useEffect(() => {
         if (musicData) {
             setMusicDataState(musicData);
         }
     }, [musicData])
+
+    useEffect(() => {
+        if (isPlayRelatedSong && isPlayRelatedSong != "") {
+            let nextSong = musicDataState[0];
+            let nextSongId = nextSong.id
+            const wavesurfer = WaveSurferManager.getInstance(`#card${nextSongId}`, nextSongId);
+            wavesurfer.play();
+        }
+    }, [isPlayRelatedSong])
 
     useEffect(() => {
         const getMusicData = async () => {

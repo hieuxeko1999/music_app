@@ -56,9 +56,11 @@ const AppHomePage = () => {
     const handleEnd = (currentIndex: number) => {
         if (musicDataState.length > currentIndex) {
             let nextSong = musicDataState[currentIndex + 1];
-            let nextSongId = nextSong.id
-            const wavesurfer = WaveSurferManager.getInstance(`#card${nextSongId}`, nextSongId);
-            wavesurfer.play();
+            if (nextSong) {
+                let nextSongId = nextSong.id
+                const wavesurfer = WaveSurferManager.getInstance(`#card${nextSongId}`, nextSongId);
+                wavesurfer.play();
+            }
         }
     };
 
@@ -185,7 +187,11 @@ const AppHomePage = () => {
                         )
                     }
                 </div>
-
+                {
+                    ads && (
+                        <Ads type={AdsType.HORIZONTAL} ads={ads} />
+                    )
+                }
             </div>
         </div>
     );
