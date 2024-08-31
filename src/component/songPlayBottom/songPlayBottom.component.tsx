@@ -190,6 +190,9 @@ const SongPlayBottom = () => {
                             <div className={styles.totalTime}>{timeDuration}</div>
                         </div>
                         <div className={styles.lastCol}>
+                            <div className={styles.currentTimeLast}>
+                                <Icon name="clock" /> {currentTime}
+                            </div>
                             <div className={styles.actions}>
                                 {
                                     isMute ? (<Icon name="volume off" onClick={handleVolumeOnOff} />) : (<Icon name="volume up" onClick={handleVolumeOnOff} />)

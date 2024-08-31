@@ -58,9 +58,13 @@ export default function DetailSong() {
   return (
     <div className={styles.container}>
       <div className={styles.leftZone}>
-        <div className={styles.ads}>
-          <Ads type={AdsType.HORIZONTAL} ads={ads?.filter((item: any) => item?.attributes?.type != AdsType.VERTICAL)} />
-        </div>
+        {
+          ads && (
+            <div className={styles.ads}>
+              <Ads type={AdsType.HORIZONTAL} ads={ads?.filter((item: any) => item?.attributes?.type != AdsType.VERTICAL)} />
+            </div>
+          )
+        }
         {
           musicData && (
             <>
@@ -74,13 +78,21 @@ export default function DetailSong() {
             </>
           )
         }
-        <div className={styles.ads}>
-          <Ads type={AdsType.HORIZONTAL} ads={ads?.filter((item: any) => item?.attributes?.type != AdsType.VERTICAL)} />
-        </div>
+        {
+          ads && (
+            <div className={styles.ads}>
+              <Ads type={AdsType.HORIZONTAL} ads={ads?.filter((item: any) => item?.attributes?.type != AdsType.VERTICAL)} />
+            </div>
+          )
+        }
       </div>
-      <div className={styles.rightZone}>
-        <Ads type={AdsType.VERTICAL} ads={ads?.filter((item: any) => item?.attributes?.type != AdsType.HORIZONTAL)} />
-      </div>
+      {
+        ads && (
+          <div className={styles.rightZone}>
+            <Ads type={AdsType.VERTICAL} ads={ads?.filter((item: any) => item?.attributes?.type != AdsType.HORIZONTAL)} />
+          </div>
+        )
+      }
       {isLoading && (
         <Dimmer active inverted>
           <Loader inverted content='Loading' />

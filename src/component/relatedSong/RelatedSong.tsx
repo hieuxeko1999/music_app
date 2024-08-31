@@ -26,7 +26,7 @@ const RelatedSong: React.FC<RelatedSongProps> = ({ currentSong, type }) => {
         await WaveSurferManager.destroyAll()
         setSongPlay(null)
         setMusicData([]);
-        let { data, meta } = await searchMusicApi("", type, page + 1, pagingnation.pageSize);
+        let { data, meta } = await searchMusicApi("", type, page + 1, pagingnation.pageSize, "asc");
         if (data && data.length > 0) {
             setMusicData(data);
         } else {

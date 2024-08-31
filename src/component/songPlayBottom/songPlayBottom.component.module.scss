@@ -105,6 +105,10 @@
         gap: 1rem;
         box-sizing: content-box;
 
+        .currentTimeLast {
+          display: none;
+        }
+
         .actions {
           display: flex;
           flex-direction: row;
@@ -160,7 +164,21 @@
         width: 100% !important;
       }
 
-      .lastCol,
+      .lastCol {
+        .currentTimeLast {
+          display: flex !important;
+          flex-direction: row !important;
+          color: white !important;
+
+        }
+      }
+
+      .lastCol {
+        .actions {
+          display: none !important;
+        }
+      }
+
       .midCol {
         display: none !important;
       }

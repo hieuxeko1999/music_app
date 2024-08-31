@@ -34,7 +34,7 @@ const AppHomePage = () => {
         await WaveSurferManager.destroyAll()
         setSongPlay(null)
         setMusicData([]);
-        let { data, meta } = await searchMusicApi(searchObject.input, searchObject.type, page + 1, pagingnation.pageSize);
+        let { data, meta } = await searchMusicApi(searchObject.input, searchObject.type, page + 1, pagingnation.pageSize, "desc");
         if (data && data.length > 0) {
             setMusicData(data);
         } else {
@@ -117,7 +117,7 @@ const AppHomePage = () => {
             setSongPlay(null)
             setMusicData([]);
 
-            let { data, meta } = await searchMusicApi(input, "all", 0, pagingnation.pageSize);
+            let { data, meta } = await searchMusicApi(input, "all", 0, pagingnation.pageSize, "desc");
             if (data && data.length > 0) {
                 setMusicData(data);
             } else {

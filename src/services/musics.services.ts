@@ -128,7 +128,7 @@ export const getDataMusicByIdApi = async (id: string) => {
     }
 }
 
-export const searchMusicApi = async (input: string, type: string, page: number, pageSize: number) => {
+export const searchMusicApi = async (input: string, type: string, page: number, pageSize: number, sort: string) => {
     let queryObject = {
         fields: ['song_name', 'singer_name', 'active'],
         populate: {
@@ -147,7 +147,7 @@ export const searchMusicApi = async (input: string, type: string, page: number, 
                 $eq: true,
             },
         } as Record<string, any>,
-        sort: ['updatedAt:asc'],
+        sort: [`updatedAt:${sort}`],
         pagination: {
             page: page - 1,      // Page number (1-based)
             pageSize,  // Number of items per page
@@ -156,7 +156,8 @@ export const searchMusicApi = async (input: string, type: string, page: number, 
 
     if (input && input.trim() !== "") {
         queryObject.filters.$or = [
-            { song_name: { $containsi: input } },  // Case-insensitive partial match for song_name
+            { song_name: { $containsi: input } },
+            { slug_song_name: { $containsi: input.toLocaleLowerCase() } },
             { singer_name: { $containsi: input } } // Case-insensitive partial match for singer_name
         ];
     }
