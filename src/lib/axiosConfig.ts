@@ -5,7 +5,7 @@ import axiosLib from 'axios'
  * with `access-token` header injected
  */
 
-let baseURL = 'https://music-app-api-hzfuh8ewaqb2fmbs.southeastasia-01.azurewebsites.net'
+let baseURL = 'https://music-box-api-btcdd0ehfcgsbxdj.southeastasia-01.azurewebsites.net'
 if (typeof window !== 'undefined') {
     baseURL = localStorage.getItem('baseurl') || baseURL
 }
@@ -14,7 +14,7 @@ export const axios = axiosLib.create({
     baseURL: baseURL,
     headers: {
         Authorization:
-            'Bearer 1f40d0ae83ddef83e4cb304a7277f065333a0c06562beb9604e8386abb283e2f5f646101257c0d6f8d9f5888d2b7cbf5cb503a8cab148ac2ecd824f6009586843b8a3998c7ec802a3a843149f6a0c56a3ad6ffe0b9223572ea1609b938d56b22d2ccf5f3e32824160a2caa2b151e8d4ba99ad5b8d95c66226c3dee1b5638b274',
+            'Bearer a01c16fcc9a1c8b839bbce9b4e6e3f70d94cd65e0d309767c050c9ebf9d4e521477d6d9f5c78b495ed164360cdd7cf8a4d63d95bef17afcb822d291434c4faeda4f6838d7d37b1ebfdbec6f5a647bb4f8a10ba0c3321325fbac308b1b1cac48bb1ed677914cc392a91d19974c37f27ef036fd57d511139d2dfcff9ac97965079',
     },
 })
 
